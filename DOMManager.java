@@ -1,5 +1,6 @@
 package com.examen;
 
+import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -31,8 +32,10 @@ public class DOMManager {
 
     }
 
-    public void setActualElementToParent(){
-        actualElement = (Element) actualElement.getParentNode();
+    public void setParent(int nLevelJump){
+        for (int i = 0; i < nLevelJump; i++) {
+            actualElement = (Element) actualElement.getParentNode();
+        }
     }
 
 
@@ -50,16 +53,17 @@ public class DOMManager {
     }
 
     public void writeAttribute(String key, String value){
-        Element child = doc.createElement(key);
-        child.appendChild(doc.createTextNode(value));
-        actualElement.appendChild(child);
+        Attr createAttribute = doc.createAttribute(key);
+        createAttribute.setValue(value);
+        actualElement.setAttributeNode(createAttribute);
     }
 
-    public void writeAttribute(String key, boolean writeInto){
-        Element child = doc.createElement(key);
-        actualElement.appendChild(child);
-        if (writeInto) actualElement = child;;
+    public void writeAttribute(String key){
+        Attr createAttribute = doc.createAttribute(key);
+        actualElement.setAttributeNode(createAttribute);
     }
+
+
 
     public void read(){
 
